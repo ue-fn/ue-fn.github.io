@@ -41,6 +41,12 @@ jobs:
       - name: Install dependencies
         run: npm ci || npm install
 
+      - name: Build theme assets (Kratos-Rebirth)
+        working-directory: themes/kratos-rebirth
+        run: |
+          npm ci || npm install
+          npm run build
+
       - name: Build
         run: |
           npx hexo clean
