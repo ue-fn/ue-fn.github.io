@@ -38,6 +38,15 @@ jobs:
           npx hexo clean
           npx hexo generate
 
+      - name: Debug public output
+        run: |
+          echo "===== list public ====="
+          ls -la public || true
+          echo "===== list public/css ====="
+          ls -la public/css || true
+          echo "===== check css file ====="
+          test -f public/css/kr-core.min.css && echo "CSS exists" || echo "CSS missing"
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
