@@ -1,0 +1,36 @@
+sidebar:
+  location: right
+  widgets:
+    - about
+    - splitter
+    - toc
+    - category
+    - tagcloud
+    - posts
+
+# 图片（头像/关于卡片/横幅）
+image:
+  avatar: /images/avatar.jpg
+  about:
+    light: /images/banner.jpeg
+    dark: /images/banner.jpeg
+  banner:
+    light: /images/banner.jpeg
+    dark: /images/banner.jpeg
+  background:
+    light: /images/background.png
+    dark: /images/background.png
+
+# 导航（可选，但建议配）
+nav:
+  auto_hide: true
+  items:
+    - label: 首页
+      icon: home
+      url: /
+    - label: 归档
+      icon: archive
+      url: /archives/
+    - label: 关于
+      icon: user
+      url: /about/
