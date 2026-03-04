@@ -15,10 +15,10 @@ image:
     light: /images/banner.jpeg
     dark: /images/banner.jpeg
   banner:
-    light: /images/banner.jpeg
+    light: /images/day_banner.jpg
     dark: /images/banner.jpeg
   background:
-    light: /images/background.png
+    light: /images/background.jpg
     dark: /images/background.jpg
 
 # 导航（可选，但建议配）
