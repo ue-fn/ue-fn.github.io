@@ -22,7 +22,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          submodules: true
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Ensure submodules are present
+        run: |
+          git submodule sync --recursive
+          git submodule update --init --recursive
+          ls -la themes || true
+          ls -la themes/kratos-rebirth || true
 
       - name: Setup Node
         uses: actions/setup-node@v4
