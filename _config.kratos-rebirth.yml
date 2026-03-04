@@ -50,3 +50,10 @@ search:
 
 posts:
   default_cover: "" 
+
+footer:
+  components:
+    author:
+      homepage: "https://ue-fn.github.io/"
+      # 或者：
+      # homepage: "https://github.com/ue-fn"
