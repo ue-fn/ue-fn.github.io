@@ -1,5 +1,5 @@
 sidebar:
-  location: right
+  location: left   # left / right / false
   widgets:
     - about
     - splitter
@@ -19,7 +19,7 @@ image:
     dark: /images/banner.jpeg
   background:
     light: /images/background.png
-    dark: /images/background.png
+    dark: /images/background.jpg
 
 # 导航（可选，但建议配）
 nav:
@@ -34,3 +34,19 @@ nav:
     - label: 关于
       icon: user
       url: /about/
+    - label: 搜索
+      icon: search
+      url: /search/
+
+search:
+  provider: local
+  path:
+    page: search
+    index_file: search-index.json
+  includes:
+    - post
+    - page
+  content: true
+
+posts:
+  default_cover: "" 
