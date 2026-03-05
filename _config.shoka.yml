@@ -1,0 +1,23 @@
+# 站点副标题（显示在 Logo 下方）
+alternate: "你的博客别名/副标题"
+
+# 侧边栏社交链接
+social:
+  github: https://github.com/ue-fn || i-github
+  # 格式：名字: 链接 || 图标名
+
+# 菜单栏配置
+menu:
+  home: / || i-home
+  about: /about/ || i-user
+  posts:
+    default: /archives/ || i-feather
+    categories: /categories/ || i-th
+    tags: /tags/ || i-tags
+
+# 首页布局设置
+home:
+  widgets:
+    - category # 必须包含这一项，才会显示精选分类卡片
+    - tag
+    - link
