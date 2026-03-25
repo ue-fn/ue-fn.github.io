@@ -7,8 +7,8 @@
     <link rel="icon" href="/images/banner.jpeg">
   
   
-  <title>操作系统1 | ue-fn</title>
-  <link rel="canonical" href="https://ue-fn.github.io/2026/03/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1/">
+  <title>数据库2_关系数据库 | ue-fn</title>
+  <link rel="canonical" href="https://ue-fn.github.io/2026/03/25/%E6%95%B0%E6%8D%AE%E5%BA%932-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/">
   <meta name="author" content="ue-fn" />
   <meta http-equiv="Cache-Control" content="no-transform" />
   <meta http-equiv="Cache-Control" content="no-siteapp" />
@@ -17,19 +17,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta name="format-detection" content="telphone=no, email=no" />
   
-    <meta name="keywords" content="" />
+    <meta name="keywords" content="笔记" />
   
-  <meta name="description" content="LCB Faust">
+  <meta name="description" content="关系数据模型域域 是一组具有相同数据类型的值的集合 比如：整数，实数，， 笛卡尔积 给定一组域 D1，D2,…Dn，允许其中某些域是相同的，笛卡尔积可以表示成D1xD2x….xDn  笛卡尔积的结果也是一个集合，每个元素都是一个n元组（d1，d2，d3，，，dn）  元组：每一个元素叫一个n元组  分量：每一个值di叫一个分量  基数：一个域允许的不同取值个数称为这个域的‘基数’   笛卡尔积">
 <meta property="og:type" content="article">
-<meta property="og:title" content="操作系统1">
-<meta property="og:url" content="https://ue-fn.github.io/2026/03/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1/index.html">
+<meta property="og:title" content="数据库2_关系数据库">
+<meta property="og:url" content="https://ue-fn.github.io/2026/03/25/%E6%95%B0%E6%8D%AE%E5%BA%932-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/index.html">
 <meta property="og:site_name" content="ue-fn">
-<meta property="og:description" content="LCB Faust">
+<meta property="og:description" content="关系数据模型域域 是一组具有相同数据类型的值的集合 比如：整数，实数，， 笛卡尔积 给定一组域 D1，D2,…Dn，允许其中某些域是相同的，笛卡尔积可以表示成D1xD2x….xDn  笛卡尔积的结果也是一个集合，每个元素都是一个n元组（d1，d2，d3，，，dn）  元组：每一个元素叫一个n元组  分量：每一个值di叫一个分量  基数：一个域允许的不同取值个数称为这个域的‘基数’   笛卡尔积">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://ue-fn.github.io/images/banner.jpeg">
-<meta property="article:published_time" content="2026-03-12T06:11:47.000Z">
-<meta property="article:modified_time" content="2026-03-12T06:11:46.000Z">
+<meta property="article:published_time" content="2026-03-25T09:45:46.000Z">
+<meta property="article:modified_time" content="2026-03-25T15:46:36.736Z">
 <meta property="article:author" content="ue-fn">
+<meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://ue-fn.github.io/images/banner.jpeg">
   
@@ -37,7 +38,7 @@
   
   
     <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"BlogPosting","headline":"操作系统1","description":"","image":"https://ue-fn.github.io/images/avatar.jpg","author":{"@type":"Person","name":"ue-fn"},"publisher":{"@type":"Organization","name":"ue-fn","logo":{"@type":"ImageObject","url":"https://ue-fn.github.io/images/avatar.jpg"}},"datePublished":"2026-03-12T06:11:47.000Z","dateModified":"2026-03-12T06:11:46.000Z","mainEntityOfPage":{"@type":"WebPage","@id":"https://ue-fn.github.io/2026/03/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1/"}}
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"数据库2_关系数据库","description":"\n\n","image":"https://ue-fn.github.io/images/avatar.jpg","author":{"@type":"Person","name":"ue-fn"},"publisher":{"@type":"Organization","name":"ue-fn","logo":{"@type":"ImageObject","url":"https://ue-fn.github.io/images/avatar.jpg"}},"datePublished":"2026-03-25T09:45:46.000Z","dateModified":"2026-03-25T15:46:36.736Z","mainEntityOfPage":{"@type":"WebPage","@id":"https://ue-fn.github.io/2026/03/25/%E6%95%B0%E6%8D%AE%E5%BA%932-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/"}}
     </script>
   
   <!-- 关键 CSS 预加载 -->
@@ -219,14 +220,14 @@
         
 
             <article itemscope itemtype="https://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://ue-fn.github.io/2026/03/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F1/">
+    <link itemprop="mainEntityOfPage" href="https://ue-fn.github.io/2026/03/25/%E6%95%B0%E6%8D%AE%E5%BA%932-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93/">
     <div class="kratos-hentry kratos-page-inner clearfix">
         <header class="kratos-page-header">
             
-                <h1 class="kratos-page-title text-center" itemprop="name headline">操作系统1</h1>
+                <h1 class="kratos-page-title text-center" itemprop="name headline">数据库2_关系数据库</h1>
             
             <ul class="kratos-page-meta text-center">
-                <li><time datetime="2026-03-12T06:11:47.000Z" itemprop="datePublished"><i class="fa fa-calendar"></i> 2026-03-12</time></li>
+                <li><time datetime="2026-03-25T09:45:46.000Z" itemprop="datePublished"><i class="fa fa-calendar"></i> 2026-03-25</time></li>
                 <li itemprop="author" itemscope itemtype="https://schema.org/Person">
                     <i class="fa fa-user"></i> 作者 <span itemprop="name">ue-fn</span>
                 </li>
@@ -235,7 +236,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            0
+                            537
                         
                         字
                     </li>
@@ -248,8 +249,72 @@
             
             
             
+                <div class="kratos-post-inner-toc toc-div-class" >
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">关系数据模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%9F"><span class="toc-number">1.1.</span> <span class="toc-text">域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%9B%E5%8D%A1%E5%B0%94%E7%A7%AF"><span class="toc-number">1.2.</span> <span class="toc-text">笛卡尔积</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB"><span class="toc-number">1.3.</span> <span class="toc-text">关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.4.</span> <span class="toc-text">关系模式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">2.</span> <span class="toc-text">关系数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E6%93%8D%E4%BD%9C"><span class="toc-number">2.1.</span> <span class="toc-text">关系操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E7%9A%84%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="toc-number">2.2.</span> <span class="toc-text">关系的完整性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E4%BB%A3%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text">关系代数</span></a></li></ol></li></ol>
+                </div>
+            
             <hr />
-            <div itemprop="articleBody"></div>
+            <div itemprop="articleBody"><img src="./../images/image-20260325200022890.png" alt="名词术语的对应关系" style="zoom:80%;" />
+
+<h1 id="关系数据模型"><a href="#关系数据模型" class="headerlink" title="关系数据模型"></a>关系数据模型</h1><h2 id="域"><a href="#域" class="headerlink" title="域"></a>域</h2><p>域 是一组具有相同数据类型的值的集合</p>
+<p>比如：整数，实数，，</p>
+<h2 id="笛卡尔积"><a href="#笛卡尔积" class="headerlink" title="笛卡尔积"></a>笛卡尔积</h2><ul>
+<li><p>给定一组域 D1，D2,…Dn，允许其中某些域是相同的，笛卡尔积可以表示成D1xD2x….xDn</p>
+</li>
+<li><p>笛卡尔积的结果也是一个集合，每个元素都是一个n元组（d1，d2，d3，，，dn）</p>
+</li>
+<li><p><strong>元组</strong>：每一个元素叫一个n元组</p>
+</li>
+<li><p><strong>分量</strong>：每一个值di叫一个分量</p>
+</li>
+<li><p><strong>基数</strong>：一个域允许的不同取值个数称为这个域的‘基数’</p>
+</li>
+</ul>
+<p>笛卡尔积：集合，二维表</p>
+<h2 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h2><ul>
+<li><p>关系：关系的“目”或者“度”</p>
+</li>
+<li><p>关系的表示</p>
+</li>
+<li><p>码，候选码</p>
+<ul>
+<li><p>若关系中的某一属性组的值能唯一地标识一个元组，而其所有的真<br>子集都不能，则称该属性组为关系的 ‘候选码’，简称 ‘码’</p>
+</li>
+<li><p>简单：一个候选码只有一个属性</p>
+</li>
+<li><p>极端：全部，全码</p>
+</li>
+</ul>
+</li>
+<li><p>主码：某个候选码</p>
+</li>
+</ul>
+<h2 id="关系模式"><a href="#关系模式" class="headerlink" title="关系模式"></a>关系模式</h2><p><img src="/./../images/image-20260325204455494.png" alt="image-20260325204455494"></p>
+<h1 id="关系数据库"><a href="#关系数据库" class="headerlink" title="关系数据库"></a>关系数据库</h1><h2 id="关系操作"><a href="#关系操作" class="headerlink" title="关系操作"></a>关系操作</h2><h2 id="关系的完整性"><a href="#关系的完整性" class="headerlink" title="关系的完整性"></a>关系的完整性</h2><p>外码：设F是基本关系R的一个或一组属性，但不是关系R的码。如果F与基<br>本关系S的主码Ks相对应，则称F是关系R的外码。</p>
+<img src="./../images/image-20260325204945518.png" alt="image-20260325204945518" style="zoom:67%;" />
+
+<h2 id="关系代数"><a href="#关系代数" class="headerlink" title="关系代数"></a>关系代数</h2><ul>
+<li>常用的关系操作<ul>
+<li>集合操作：并交差笛卡尔积</li>
+<li>专门的关系操作：<ul>
+<li>选择、投影</li>
+<li>连接</li>
+<li>除</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/./../images/image-20260325205727300.png" alt="image-20260325205727300"></p>
+<p><img src="/./../images/image-20260325205737298.png" alt="image-20260325205737298"></p>
+<p><img src="/./../images/image-20260325205829819.png" alt="image-20260325205829819"></p>
+<p>选择：从关系R中选出使逻辑表达式F为真的元组，从行角度的运算</p>
+<img src="./../images/image-20260325234216750.png" alt="image-20260325234216750" style="zoom:50%;" />
+
+<p>投影：从R中选出若干属性得出新的关系，从列的角度运算</p>
+<img src="./../images/image-20260325234248163.png" alt="image-20260325234248163" style="zoom:50%;" />
+
+</div>
         </div>
         
             <div class="kratos-copyright text-center clearfix">
@@ -260,22 +325,13 @@
             
             
             
-                <div class="post-actions text-center clearfix" id="post-actions">
-                
-                    <a class="donate" href="javascript:;" onclick="krOpenDonateModal()"><i class="fa fa-bitcoin"></i> 打赏</a>
-                
-                
-                    <a class="share" href="javascript:;" onclick="krOpenShareModal()"><i class="fa fa-share-alt"></i> 分享</a>
-                
-                </div>
-            
             <div class="footer-tag clearfix">
                 <div class="pull-left">
                 <i class="fa fa-tags"></i>
-                    
+                    <a class="tag-none-link" href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag">笔记</a>
                 </div>
                 <div class="pull-date">
-                    <time datetime="2026-03-12T06:11:46.000Z" itemprop="dateModified">最后编辑：2026-03-12</time>
+                    <time datetime="2026-03-25T15:46:36.736Z" itemprop="dateModified">最后编辑：2026-03-25</time>
                 </div>
             </div>
         </footer>
@@ -284,13 +340,9 @@
         <nav class="navigation post-navigation clearfix" role="navigation">
             
             <div class="nav-previous clearfix">
-                <a title=" 应用层" href="/2026/03/09/计网2/"><i class="fa fa-angle-left"></i> 上一篇</a>
+                <a title=" 操作系统1" href="/2026/03/12/操作系统1/"><i class="fa fa-angle-left"></i> 上一篇</a>
             </div>
             
-            
-            <div class="nav-next clearfix">
-                <a title=" 数据库2_关系数据库" href="/2026/03/25/数据库2-关系数据库/">下一篇 <i class="fa fa-angle-right"></i></a>
-            </div>
             
         </nav>
     
@@ -351,6 +403,18 @@
 </aside>
             
                     <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix toc-div-class" >
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar" role="progressbar" aria-label="阅读进度："></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="toc-text">关系数据模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%9F"><span class="toc-text">域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%9B%E5%8D%A1%E5%B0%94%E7%A7%AF"><span class="toc-text">笛卡尔积</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB"><span class="toc-text">关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%BC%8F"><span class="toc-text">关系模式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">关系数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E6%93%8D%E4%BD%9C"><span class="toc-text">关系操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E7%9A%84%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="toc-text">关系的完整性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E4%BB%A3%E6%95%B0"><span class="toc-text">关系代数</span></a></li></ol></li></ol>
+    </div>
+</aside>
                 
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
