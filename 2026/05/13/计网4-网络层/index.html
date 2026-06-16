@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  
+    <link rel="icon" href="/images/banner.jpeg">
+  
+  
+  <title>计网4-网络层 | ue-fn</title>
+  <link rel="canonical" href="https://ue-fn.github.io/2026/05/13/%E8%AE%A1%E7%BD%914-%E7%BD%91%E7%BB%9C%E5%B1%82/">
+  <meta name="author" content="ue-fn" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="" />
+  
+  <meta name="description" content="数据平面Network Layer Functions网络层：把传输层的段，从发送主机送到接收主机 发送端：封装成数据包（ip包），加上ip头，交给数据链路层发送 接收端：把收到的ip报解封装，取出字段交给运输层 协议在每一台主机和路由器生效 路由器决定如何转发 两大核心功能：  数据平面：路由器收到包后，从输入端口移到指定的输出端口。只在单个节点（路由器）上执行，还包含错误处理、排队和调度。 控">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计网4-网络层">
+<meta property="og:url" content="https://ue-fn.github.io/2026/05/13/%E8%AE%A1%E7%BD%914-%E7%BD%91%E7%BB%9C%E5%B1%82/index.html">
+<meta property="og:site_name" content="ue-fn">
+<meta property="og:description" content="数据平面Network Layer Functions网络层：把传输层的段，从发送主机送到接收主机 发送端：封装成数据包（ip包），加上ip头，交给数据链路层发送 接收端：把收到的ip报解封装，取出字段交给运输层 协议在每一台主机和路由器生效 路由器决定如何转发 两大核心功能：  数据平面：路由器收到包后，从输入端口移到指定的输出端口。只在单个节点（路由器）上执行，还包含错误处理、排队和调度。 控">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ue-fn.github.io/images/banner.jpeg">
+<meta property="article:published_time" content="2026-05-13T10:48:11.000Z">
+<meta property="article:modified_time" content="2026-06-11T17:06:58.172Z">
+<meta property="article:author" content="ue-fn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ue-fn.github.io/images/banner.jpeg">
+  
+  <!-- JSON-LD 结构化数据 -->
+  
+  
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"计网4-网络层","description":"数据平面","image":"https://ue-fn.github.io/images/avatar.jpg","author":{"@type":"Person","name":"ue-fn"},"publisher":{"@type":"Organization","name":"ue-fn","logo":{"@type":"ImageObject","url":"https://ue-fn.github.io/images/avatar.jpg"}},"datePublished":"2026-05-13T10:48:11.000Z","dateModified":"2026-06-11T17:06:58.172Z","mainEntityOfPage":{"@type":"WebPage","@id":"https://ue-fn.github.io/2026/05/13/%E8%AE%A1%E7%BD%914-%E7%BD%91%E7%BB%9C%E5%B1%82/"}}
+    </script>
+  
+  <!-- 关键 CSS 预加载 -->
+  <link rel="preload" href="/css/kr-core.min.css" as="style" crossorigin>
+  <link rel="preload" href="/css/kr-theme/light.min.css" as="style" crossorigin>
+  <link rel="preload" href="/css/kr-theme/dark.min.css" as="style" crossorigin>
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kr-core.min.css" media="all">
+  <link rel="stylesheet" id="theme-light-css" href="/css/kr-theme/light.min.css" media="all">
+  <link rel="stylesheet" id="theme-dark-css" href="/css/kr-theme/dark.min.css" media="(prefers-color-scheme: dark)">
+  
+    <link rel="stylesheet"  id="highlight-css" href="/css/highlight/highlight.js/night-eighties.min.css" media="print" onload="this.media='all'" onerror="this.media='all'"><noscript><link rel="stylesheet" href="/css/highlight/highlight.js/night-eighties.min.css"></noscript>
+  
+  <script src="/js/kr-theme.min.js"></script>
+  <link rel="stylesheet"  id="fontawe-css" href="/vendors/font-awesome@4.7.0/css/font-awesome.min.css" media="print" onload="this.media='all'" onerror="this.media='all'"><noscript><link rel="stylesheet" href="/vendors/font-awesome@4.7.0/css/font-awesome.min.css"></noscript>
+  
+    <link rel="stylesheet"  id="nprogress-css" href="/vendors/nprogress@0.2.0/nprogress.css" media="print" onload="this.media='all'" onerror="this.media='all'"><noscript><link rel="stylesheet" href="/vendors/nprogress@0.2.0/nprogress.css"></noscript>
+  
+  
+    <link rel="stylesheet"  href="/vendors/viewerjs@1.11.6/dist/viewer.min.css" media="print" onload="this.media='all'" onerror="this.media='all'"><noscript><link rel="stylesheet" href="/vendors/viewerjs@1.11.6/dist/viewer.min.css"></noscript>
+  
+  <!-- 预先加载的JS文件 -->
+  
+    <script src="/vendors/qr-code-styling@1.6.0-rc.1/lib/qr-code-styling.js"></script>
+  
+  <!-- 自定义站点横幅和背景 -->
+  <style>
+    
+      .kratos-cover.kratos-cover-2 {
+        background-image: url('/images/day_banner.jpg ');
+      }
+      html[data-theme="dark"] .kratos-cover.kratos-cover-2 {
+        background-image: url('/images/banner.jpeg');
+      }
+    
+    
+      @media(min-width:768px) {
+        body.custom-background {
+          background-image: url(' ');
+        }
+        html[data-theme="dark"] body.custom-background {
+          background-image: url(' ');
+        }
+      }
+    
+    
+      .widget-kratos-about .photo-background {
+        background-image: url('/images/default.webp');
+      }
+      html[data-theme="dark"] .widget-kratos-about .photo-background {
+        background-image: url('/images/default.webp');
+      }
+    
+  </style>
+
+  <!-- 额外的追加注入项 -->
+  
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    <li>
+                                        
+                                            <a href="/">
+                                        
+                                            
+                                                <i class="fa fa-home"></i>
+                                            
+                                            首页
+                                        </a>
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        
+                                            <a href="/archives/">
+                                        
+                                            
+                                                <i class="fa fa-file"></i>
+                                            
+                                            档案馆
+                                        </a>
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        
+                                            <a>
+                                        
+                                            
+                                                <i class="fa fa-link"></i>
+                                            
+                                            链接
+                                        </a>
+                                        
+                                            <ul class="sub-menu">
+                                                
+                                                    <li>
+                                                        <a target="_blank" rel="noopener" href="https://github.com/Candinya/Kratos-Rebirth">
+                                                            
+                                                                <i class="fa fa-code"></i>
+                                                            
+                                                            代码仓库
+                                                        </a>
+                                                    </li>
+                                                
+                                                    <li>
+                                                        <a target="_blank" rel="noopener" href="https://wiki.krt.moe">
+                                                            
+                                                                <i class="fa fa-book"></i>
+                                                            
+                                                            项目文档
+                                                        </a>
+                                                    </li>
+                                                
+                                            </ul>
+                                        
+                                    </li>
+                                
+                                    <li>
+                                        
+                                            <a href="/linklist-example/">
+                                        
+                                            
+                                                <i class="fa fa-link"></i>
+                                            
+                                            链接列表
+                                        </a>
+                                        
+                                    </li>
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">ue-fn</a></div>
+                    <div id="kratos-nav-toggle-wrapper" class="nav-toggle">
+                        <a id="kratos-nav-toggle" class="kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>ue-fn</h2> <br />
+                        <span>杂鱼池塘</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+
+
+        
+
+            
+
+            <section class="kr-main-col col-md-8">
+
+        
+
+            <article itemscope itemtype="https://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://ue-fn.github.io/2026/05/13/%E8%AE%A1%E7%BD%914-%E7%BD%91%E7%BB%9C%E5%B1%82/">
+    <div class="kratos-hentry kratos-page-inner clearfix">
+        <header class="kratos-page-header">
+            
+                <h1 class="kratos-page-title text-center" itemprop="name headline">计网4-网络层</h1>
+            
+            <ul class="kratos-page-meta text-center">
+                <li><time datetime="2026-05-13T10:48:11.000Z" itemprop="datePublished"><i class="fa fa-calendar"></i> 2026-05-13</time></li>
+                <li itemprop="author" itemscope itemtype="https://schema.org/Person">
+                    <i class="fa fa-user"></i> 作者 <span itemprop="name">ue-fn</span>
+                </li>
+                
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            ~7.13K
+                        
+                        字
+                    </li>
+                
+                
+                
+            </ul>
+        </header>
+        <div class="kratos-page-content kr-post">
+            
+            
+            
+            <hr />
+            <div itemprop="articleBody"><h1 id="数据平面"><a href="#数据平面" class="headerlink" title="数据平面"></a>数据平面</h1><h2 id="Network-Layer-Functions"><a href="#Network-Layer-Functions" class="headerlink" title="Network Layer Functions"></a>Network Layer Functions</h2><p>网络层：把传输层的段，从发送主机送到接收主机</p>
+<p>发送端：封装成数据包（ip包），加上ip头，交给数据链路层发送</p>
+<p>接收端：把收到的ip报解封装，取出字段交给运输层</p>
+<p>协议在每一台主机和路由器生效</p>
+<p>路由器决定如何转发</p>
+<p>两大核心功能：</p>
+<ul>
+<li>数据平面：路由器收到包后，从输入端口移到指定的输出端口。只在单个节点（路由器）上执行，还包含错误处理、排队和调度。</li>
+<li>控制平面：决定数据包从源主机到目的主机，要经过哪些路由器、走哪条路径。由路由算法计算出 “从源到目的的最短 &#x2F; 最优路径”，生成路由表。</li>
+</ul>
+<h2 id="Routers"><a href="#Routers" class="headerlink" title="Routers"></a>Routers</h2><p>互联网和路由器</p>
+<p>边缘层：</p>
+<p>用户侧边缘：比如图里的<code>home, small business</code>（家庭 &#x2F; 小企业网络）、<code>UMICH</code>（密歇根大学）、<code>NYU</code>（纽约大学）、<code>BBN</code>（企业网）。这些网络的路由器，直接为终端用户提供接入服务，通常处理的用户流量更复杂，比如家庭宽带、校园网、企业内网</p>
+<p><strong>ISP 边缘（edge ISP）</strong>：运营商的接入路由器，负责把用户网络接入到运营商骨干网。</p>
+<p>核心层就是运营商的骨干网络，比如图里的<code>AT&amp;T</code>骨干网，核心路由器之间用高速线路互联，只负责<strong>高速转发数据</strong>，不直接和用户打交道。</p>
+<p>核心层：</p>
+<p>运营商的骨干网络，比如图里的<code>AT&amp;T</code>骨干网，核心路由器之间用高速线路互联，只负责<strong>高速转发数据</strong>，不直接和用户打交道。</p>
+<p>路由器的分类：</p>
+<p>core：</p>
+<p>R（端口线速&#x2F;单端口速率）单个物理端口，每秒能传输的最大数据量</p>
+<p>NR（路由器总容量）&#x3D;N端口总数 * R</p>
+<p>edge：</p>
+<p>small business：</p>
+<p>路由器内部架构：两个核心模块：控制面，数据面</p>
+<h2 id="ip-addressing"><a href="#ip-addressing" class="headerlink" title="ip addressing"></a>ip addressing</h2><p>ip是给接口的，</p>
+<h2 id="CIDR"><a href="#CIDR" class="headerlink" title="CIDR"></a>CIDR</h2><h2 id="DHCP：让刚加入网络的主机获取网络-配置"><a href="#DHCP：让刚加入网络的主机获取网络-配置" class="headerlink" title="DHCP：让刚加入网络的主机获取网络 配置"></a>DHCP：让刚加入网络的主机获取网络 配置</h2><h2 id="NAT：Network-Address-Translation"><a href="#NAT：Network-Address-Translation" class="headerlink" title="NAT：Network Address Translation"></a>NAT：<strong>Network Address Translation</strong></h2><p> 充当防火墙，隐藏内部ip地址，允许组织使用更多内网地址</p>
+<p>三种NAT：</p>
+<ul>
+<li>静态NAT：一个私网ip绑定公网ip</li>
+<li>动态NAT，路由器有一批ip池，根据需要来提供私网ip</li>
+<li>网络地址端口转换：内网设备用同一个公网ip</li>
+</ul>
+<p>NAT转换表：传输层协议-LAN端-WAN端-目的WAN端</p>
+<p><strong>它不允许外网主动发起连接到内网设备</strong>。导致了很多 P2P（端到端）应用的麻烦</p>
+<p>（ip地址动态变化，外网无法主动连接内网设备）</p>
+<h2 id="IPV6"><a href="#IPV6" class="headerlink" title="IPV6"></a>IPV6</h2><p>ipv4枯竭了快</p>
+<p>ipv的新头部转发更快，原生支持服务质量，不再需要路由器的分片工作，新地址模式：</p>
+<h3 id="ipv6头部"><a href="#ipv6头部" class="headerlink" title="ipv6头部"></a>ipv6头部</h3><p>version：4位（6）</p>
+<p>traffic class流类别：标记优先级（QoS）</p>
+<ul>
+<li>上层协议（tcp，udp）可以设置它的值</li>
+<li>值是可变的</li>
+<li>上层协议不能假设它的值不变</li>
+</ul>
+<p>flow label：属于同一个应用会话的所有数据包打上相同的 20 位数字 </p>
+<ul>
+<li>只看这个标签，就能快速识别出它属于哪个流，直接套用预先设置好的转发规则，不用再解析复杂的五元组。</li>
+</ul>
+<p>payload length：数据+所有扩展头部</p>
+<p>next header：确定下一个字段的类型</p>
+<p><strong>ipv6对比ipv4的优势</strong></p>
+<ul>
+<li>扩展编址能力：32-&gt;128位，组播机制支持更大范围一对多通信，任播支持（一个地址可以分配给多个节点，数据包会被路由到 “最近” 的那个节点），地址自动配置</li>
+<li>改进选项机制：扩展首部分离，中间路由器不处理大部分扩展首部，更容易扩展新选项，移除了首部校验和。支持除了 “尽力而为” 之外的 QoS 处理，比如给实时视频、语音通话提供低延迟、低丢包的保障，这是 IPv4 很难做到的。</li>
+<li>资源分配与 QoS 支持：用 <code>Traffic Class</code> 标记数据包的优先级和服务等级，用 <code>Flow Label</code> 把同一个流的数据包分组，路由器可以根据流标签快速识别流，统一处理</li>
+<li>更高效健壮的移动性，更强的安全性</li>
+</ul>
+<p>ipv4适配ipv6</p>
+<p><img src="/./../images/image-20260601204735647.png" alt="image-20260601204735647"></p>
+<ol>
+<li><p>双栈策略：同时安装 IPv4 和 IPv6 两套协议栈</p>
+<p>部分字段（flow）直接丢失</p>
+</li>
+<li><p>隧道技术：制造了一个全新的 <strong>IPv4 大信封</strong>（IPv4 Header） 。然后把<strong>整个完整的 IPv6 数据包，当成普通的 Payload（数据载荷），硬塞进这个 IPv4 信封里</strong></p>
+<p>但是效率很低</p>
+</li>
+</ol>
+<p><img src="/./../images/image-20260601204826557.png" alt="image-20260601204826557"></p>
+<h2 id="通用转发与软件定义网络（SDN）"><a href="#通用转发与软件定义网络（SDN）" class="headerlink" title="通用转发与软件定义网络（SDN）"></a>通用转发与软件定义网络（SDN）</h2><p>通用转发：匹配+动作。当一个数据包到达路由器时，硬件去匹配（Match）**数据包首部里的特定比特（Bit）位，一旦对上了，就立刻执行对应的**动作</p>
+<ul>
+<li>基于目的地转发：</li>
+<li>通用转发模式：<ul>
+<li>数据包首部里的许多个字段都可以共同组合起来，决定最终要采取的动作</li>
+<li>动作类型多，除了转发还能丢，复制，修改报头，记录日志</li>
+</ul>
+</li>
+</ul>
+<p>流表抽象：</p>
+<ul>
+<li><strong>流</strong>的本质，就是由一组特定的“首部字段的值”定义出来的同一批数据包集合（涵盖链路层、网络层和传输层）</li>
+<li>简单的 packet 处理规则<ul>
+<li>匹配项，动作，优先级（防止冲突），计数器</li>
+<li></li>
+</ul>
+</li>
+</ul>
+<h1 id="控制平面"><a href="#控制平面" class="headerlink" title="控制平面"></a>控制平面</h1><h2 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h2><p>数据平面：转发</p>
+<p>控制平面：路由选择</p>
+<ul>
+<li>每台路由器控制</li>
+<li>sdn（逻辑集中控制）</li>
+</ul>
+<h2 id="Routing-protocols"><a href="#Routing-protocols" class="headerlink" title="Routing protocols"></a><strong>Routing protocols</strong></h2><blockquote>
+<p>找到一条好路径。</p>
+<p>路径：指分组从源主机到目的主机所经历的<strong>路由器序列</strong></p>
+<p>好：least cost，快，拥堵最少</p>
+</blockquote>
+<p>图的抽象：link cost</p>
+<p><img src="/./../images/image-20260603174032373.png" alt="image-20260603174032373"></p>
+<p>路由选择算法的分类：</p>
+<p><img src="/./../images/image-20260603184419880.png" alt="image-20260603184419880"></p>
+<p>​	全局</p>
+<p>静态	动态</p>
+<p>​	分散</p>
+<h3 id="Dijkstra-链路状态路由算法"><a href="#Dijkstra-链路状态路由算法" class="headerlink" title="Dijkstra 链路状态路由算法"></a>Dijkstra 链路状态路由算法</h3><p>centralized：每台路由器把自己和邻居的之恋情况打包“链路状态广播”给全网广播</p>
+<p>iterative（迭代）：经过k次循环迭代，算法已经保证确定了前往k个目的节点的最短路径</p>
+<p>问题：路由振荡 ：所有路由器同时运行路由算法，导致堵塞</p>
+<h3 id="Bellman-Ford-距离向量算法"><a href="#Bellman-Ford-距离向量算法" class="headerlink" title="Bellman-Ford 距离向量算法"></a>Bellman-Ford 距离向量算法</h3><p>$$D_x(y) &#x3D; \min_v { c_{x,v} + D_v(y) }$$</p>
+<p>（到目标的最短具体等于最短的邻居+邻居的最短距离）</p>
+<p>当自己的D（v）变化后，通知邻居</p>
+<p>每个节点根据邻居的一整张dv表更新自己的dv</p>
+<p>Distance Vector 不是一下子让全网都知道信息，而是信息一跳一跳扩散出去</p>
+<p>good news travels fast，只要更新就好</p>
+<p>bad news travels slow导致“数到无穷”问题</p>
+<h2 id="Intra-ISP-routing-OSPF"><a href="#Intra-ISP-routing-OSPF" class="headerlink" title="Intra-ISP routing: OSPF"></a>Intra-ISP routing: OSPF</h2><p>目前研究路由问题理想化：</p>
+<ul>
+<li>假设路由器都一样，所有路由器都参与同一套路由</li>
+</ul>
+<p>问题：规模太大，管理自治性</p>
+<p>互联网实现可扩展路由的方法：把路由器聚合成一些区域：自治系统AS</p>
+<p>同一个 AS 内部路由器之间的路由：intra-AS routing</p>
+<ul>
+<li>相同AS的所有路由器必须运行同一种 intra-domain protocol）</li>
+<li>不同AS可以不同</li>
+<li><strong>gateway router，网关路由器</strong>，位于自己 AS 的边缘，并且有链路连接到其他 AS 的路由器。</li>
+<li>网关既做 AS 间路由，也做 AS 内部路由</li>
+</ul>
+<p>互相连接的自治系统</p>
+<ul>
+<li>转发表由 AS 内部路由算法和 AS 间路由算法共同配置。</li>
+<li>对于 <strong>AS 内部目的地</strong>，转发表项由 intra-AS routing 决定。</li>
+<li>对于 <strong>AS 外部目的地</strong>，转发表项由 inter-AS 和 intra-AS 共同决定。</li>
+</ul>
+<p>常见AS内部路由：OSPF：Open Shortest Path First</p>
+<ul>
+<li><p>公开可用</p>
+</li>
+<li><p>经典链路状态协议</p>
+<ul>
+<li><p>每个路由器把 OSPF 链路状态通告泛洪给整个 AS 内的所有其他路由器</p>
+<p>（路由器的邻居，cost多少）</p>
+<p>OSPF 报文直接承载在 IP 上，而不是用 TCP 或 UDP</p>
+</li>
+<li><p>链路 cost 可以基于多种指标，比如带宽、延迟</p>
+</li>
+<li><p>每个路由器拥有完整拓扑，并用 Dijkstra 算法计算转发表。</p>
+</li>
+</ul>
+</li>
+<li><p>安全：所有 OSPF 消息都经过认证，用来防止恶意入侵</p>
+</li>
+</ul>
+<p>层次化 OSPF</p>
+<ul>
+<li>两级层次结构：本地区域和骨干区域。</li>
+<li>链路状态通告只在本 area 内泛洪，或者只在 backbone 内泛洪。</li>
+<li>每个节点知道自己所在 area 的详细拓扑；对于其他区域的目的地，只知道到达方向。</li>
+</ul>
+<p>本地路由器：<br> 只在本 area 内泛洪链路状态；<br> 计算本 area 内部路由；<br> 如果包要去 area 外部，就通过 area border router 转发。</p>
+<p>area border router：区域边界路由器</p>
+<p>：区域边界路由器会“汇总”到自己 area 内目的地的距离，并把这些信息通告到 backbone</p>
+<p> backbone router：骨干路由器运行限制在 backbone 内的 OSPF</p>
+<p>boundary router：AS 边界路由器：连接到其他 AS</p>
+<h2 id="Routing-among-ISPs-BGP"><a href="#Routing-among-ISPs-BGP" class="headerlink" title="Routing among ISPs: BGP"></a>Routing among ISPs: BGP</h2><p>前面的是在说，自己网络里怎么走</p>
+<p>BGP 是事实上的跨域路由协议（AS间路由），是把整个互联网粘在一起的胶水。</p>
+<p>BGP 允许一个子网向互联网其他地方宣布：我在这里，我能到这些地方。</p>
+<p>BGP提供：</p>
+<ul>
+<li>通过 eBGP，<strong>从邻居 AS 获得</strong>目的网络的可达性信息</li>
+<li>根据可达性信息和策略，决定到其他网络的路由</li>
+<li>通过 iBGP，把可达性信息<strong>传播给本 AS 内部</strong>所有路由器</li>
+<li>向邻居网络通告目的网络的可达性信息</li>
+</ul>
+<p>两个 BGP 路由器（作为 peers），通过一条长期 TCP 连接交换 BGP 消息。</p>
+<ul>
+<li>信息：打开连接，<ul>
+<li>并认证发送方 BGP 路由器</li>
+<li><strong>UPDATE</strong>：通告新路径，或撤销旧路径</li>
+<li>如果很长时间没有新的 UPDATE，双方也要定期发 ACKs</li>
+<li>报告错误，也可以用于关闭连接</li>
+</ul>
+</li>
+</ul>
+<p>向对方通告到不同目标网络前缀的路径。BGP is a “path vector” protocol)</p>
+<ul>
+<li><p>路径属性，BGP路由：</p>
+<ul>
+<li>BGP 通告出去的一条路由，由“前缀”和“属性”组成</li>
+<li>两个重要属性：<ul>
+<li>AS-PATH：这条通告经过了哪些 AS。</li>
+<li>NEXT-HOP：指明通向下一个 AS 的具体路由器</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>网关路由器收到路由通告后，会使用 <strong>import policy</strong> 决定接受还是拒绝这条路径。</p>
+<p>（比如不经过y）</p>
+<p>AS 的策略也会决定是否把这条路径继续通告给其他邻居 AS</p>
+</li>
+</ul>
+<p>Hot potato routing：倾向于更少的AS内开销，AS间不用担心</p>
+<p>ISP （互联网服务提供商（中移动，电信，，））通常只愿意转发“和自己客户有关”的流量，不愿意免费帮两个别的 ISP 之间搬运流量。</p>
+<ul>
+<li>x 不会向 B 宣告“我这里能到 C”</li>
+</ul>
+<p>BGP路径优先级：</p>
+<ol>
+<li>policy</li>
+<li>AS间</li>
+<li>AS内</li>
+<li>其它</li>
+</ol>
+<p>为什么？</p>
+<ul>
+<li>政策，inter-AS往往是不同组织间的</li>
+<li>互联网太大，分层改善路由</li>
+<li>AS 内部更关注性能，AS 之间策略压过性能</li>
+</ul>
+<h2 id="SDN-control-plane"><a href="#SDN-control-plane" class="headerlink" title="SDN control plane"></a>SDN control plane</h2><blockquote>
+<p>历史上的采用的是 <strong>分布式、逐路由器的控制方式</strong>，</p>
+<p>传统网络的控制方式：<strong>每台路由器自己都有一个控制平面，自己参与计算转发表</strong>大约从 </p>
+<p>2005 年左右，大家重新开始认真思考网络控制平面应该怎么设计。</p>
+</blockquote>
+<p>让底层设备主要负责转发，把控制逻辑拿出来，由一个逻辑集中的 controller 统一计算和下发转发表。</p>
+<p>更容易管理、更容易编程、更开放</p>
+<p>从：垂直整合的、封闭的、私有的、创新慢的</p>
+<p>到：水平分层的、接口开放的、创新快的、产业巨大的</p>
+<p>传统路由：管理员不能直接指定路径，只能调链路权重，让分布式路由算法“碰巧”算出想要的路径，不会细分“你是什么类型的流量”</p>
+<p>SDN：</p>
+<ul>
+<li>广义的、基于流的转发（把“满足某组条件的包”看成一条 flow）</li>
+<li>控制平面和数据平面分离</li>
+<li>控制功能移到交换机外部（ 不只是算最短路，还可以支撑很多网络控制功能</li>
+<li>可编程的控制应用</li>
+</ul>
+<p><img src="/./../images/image-20260610114219624.png" alt="image-20260610114219624"></p>
+<p><img src="/./../images/image-20260610114238860.png" alt="image-20260610114238860"></p>
+<p><img src="/./../images/image-20260610114259842.png" alt="image-20260610114259842"></p>
+<p>数据平面switches：</p>
+<ul>
+<li>是“快、简单、便宜&#x2F;通用”的转发设备</li>
+<li>flow table 由 controller 计算并安装</li>
+<li>API 定义“哪些东西可以被控制”</li>
+<li>switch 和 controller 之间还需要通信协议</li>
+</ul>
+<p>SDN controller (network OS): </p>
+<ul>
+<li>维护网络状态（掌握一个更全局的网络视图）</li>
+<li>上层应用通过 northbound API 调用 controller 的能力</li>
+<li>向下控制交换机</li>
+<li>controller 物理上可以是分布式系统</li>
+</ul>
+<p>network-control apps:</p>
+<ul>
+<li>是控制逻辑的大脑，controller 给应用提供底层服务：路由，访问权限控制，负载均衡</li>
+<li>解捆绑：routing app、firewall app、load balancing app 不一定必须由交换机厂商提供。第三方、研究者、管理员自己都可以写。</li>
+</ul>
+<p><strong>Components of SDN controller</strong></p>
+<ul>
+<li>给上层应用的接口层。全网状态管理。和底层设备通信</li>
+</ul>
+<p><strong>OpenFlow</strong>（在 <strong>controller 和 switch 之间</strong>）</p>
+<ul>
+<li>通信协议：tcp</li>
+<li>三类消息：<ul>
+<li>controller 主动发给 switch，<ul>
+<li>查询features</li>
+<li>查询配置参数</li>
+<li>modify-state：添加，删除，修改 flow entry</li>
+<li>让某个 switch 把一个指定的包从某个端口发出去</li>
+</ul>
+</li>
+<li>异步消息（switch主动上报），<ul>
+<li>switch 收到一个包，但 flow table 里没有匹配项。</li>
+<li>告知某条 flow table 项已经被删除</li>
+<li>告知我的某个端口状态改变</li>
+</ul>
+</li>
+<li>对称消息（ controller 和 switch 都可以发，不严格分上下方向）</li>
+</ul>
+</li>
+<li>和 OpenFlow API 不一样。OpenFlow API 偏向”能表达控制什么规则“。它是controller 和 switch 怎么把这些规则传过去。</li>
+</ul>
+<p>实例：</p>
+<ol>
+<li>s1 发现链路故障，上报 controller</li>
+<li>controller 更新自己的网络状态</li>
+<li>Dijkstra 路由应用被调用</li>
+<li>路由应用读取全网图，重新算路</li>
+<li>路由应用会和 controller 里的 flow-table-computation 组件交互，计算出需要的新 flow tables</li>
+<li>controller 把这些具体规则下发给相关交换机</li>
+</ol>
+<p>ONOS：一种具体的 <strong>SDN controller</strong>控制器平台</p>
+<p>SDN的挑战：</p>
+<ul>
+<li>控制平面一旦出问题，影响范围可能很大<ul>
+<li>SDN 控制平面要借助可靠分布式系统理论来抵抗故障</li>
+<li>可靠性和安全性不能等系统做好了以后再补丁式添加，而要从第一天设计时就考虑进去。</li>
+</ul>
+</li>
+<li>未来网络会有很多特殊任务需求，不是“能转发 IP 包”就够了</li>
+<li>SDN 在单个组织内部很有优势，但要“统一控制整个 Internet”，基本不是这么简单</li>
+<li>SDN 对 5G 网络很重要</li>
+</ul>
+<p>SDN与传统网络协议的未来</p>
+<ul>
+<li>由 SDN 计算转发表 vs. 由路由器自己计算转发表</li>
+<li>人们甚至可以设想一种由 SDN 计算的拥塞控制。controller 根据路由器上报给 controller 的拥塞程度，来设置发送方的发送速率</li>
+</ul>
+<h2 id="ICMP：Internet-Control-Message-Protocol"><a href="#ICMP：Internet-Control-Message-Protocol" class="headerlink" title="ICMP：Internet Control Message Protocol"></a>ICMP：Internet Control Message Protocol</h2><p>ICMP 被主机和路由器用来交流网络层信息，比如报错：主机不可达、网络不可达、端口不可达、协议不可达；也可以做 echo request&#x2F;reply，也就是 <code>ping</code> 用的东西。</p>
+<p>ICMP 属于网络层，逻辑上在 IP 上面一点，但 ICMP 报文是装在 IP 数据报里传输的。</p>
+<p> ICMP message包括：type | code | 引发错误的原始 IP 数据报的前8字节</p>
+<p>（前8字节通常足够包含 TCP&#x2F;UDP 头部的关键开头字段，尤其是端口号，用于判断是哪一个包出错）</p>
+<p>源主机这一侧的人或程序想知道路径：traceroute故意让包死在第 1 个、第 2 个、第 3 个路由器那里”，然后让这些路由器回信，从而知道路径的。</p>
+<h2 id="Network-management-configuration"><a href="#Network-management-configuration" class="headerlink" title="Network management, configuration"></a>Network management, configuration</h2><blockquote>
+<p>一个大网络里有成千上万台路由器、交换机、防火墙、服务器，网络管理员到底怎么知道它们的状态？又怎么批量修改它们的配置？</p>
+</blockquote>
+<p>网络管理 &#x3D; 看网络状态 + 查网络问题 + 改网络配置 + 保证网络按预期运行</p>
+<p>网络管理系统里有哪些角色：</p>
+<ul>
+<li>被管理的设备</li>
+<li>Managing server有网络管理员参与的应用</li>
+<li>network management protocol 用于管理服务器查询、配置、管理设备，也用于设备向管理服务器报告数据和事件</li>
+<li>可被管理的数据（data 包括设备状态、配置数据、运行数据、统计数据）</li>
+</ul>
+<p>方法：</p>
+<ul>
+<li>CLI：直接登录设备敲命令</li>
+<li>SNMP&#x2F;MIB：查询和设置设备数据<ul>
+<li>两种传递 MIB 信息和命令的方式：request&#x2F;response mode（ types 0-3） 和 trap mode（ types 4）</li>
+<li>MIB：是 managed device 的 operational data 和一些 configuration data，这些数据被 gathered into device MIB module</li>
+<li>SMI 是一种数据定义语言，规定 MIB 对象应该怎么定义</li>
+</ul>
+</li>
+<li>NETCONF&#x2F;YANG：更抽象、更整体的配置管理<ul>
+<li>目标：主动地、全网范围地管理和配置设备</li>
+<li>它运行在 managing server 和 managed network devices 之间。像调用远程设备上的函数一样，让设备执行某个操作。</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+        
+            <div class="kratos-copyright text-center clearfix">
+                <span itemprop="copyrightNotice">本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</span>
+            </div>
+        
+        <footer class="kratos-entry-footer clearfix">
+            
+            
+            
+                <div class="post-actions text-center clearfix" id="post-actions">
+                
+                    <a class="donate" href="javascript:;" onclick="krOpenDonateModal()"><i class="fa fa-bitcoin"></i> 打赏</a>
+                
+                
+                    <a class="share" href="javascript:;" onclick="krOpenShareModal()"><i class="fa fa-share-alt"></i> 分享</a>
+                
+                </div>
+            
+            <div class="footer-tag clearfix">
+                <div class="pull-left">
+                <i class="fa fa-tags"></i>
+                    
+                </div>
+                <div class="pull-date">
+                    <time datetime="2026-06-11T17:06:58.172Z" itemprop="dateModified">最后编辑：2026-06-12</time>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+        <nav class="navigation post-navigation clearfix" role="navigation">
+            
+            <div class="nav-previous clearfix">
+                <a title=" limbus_company" href="/2026/04/10/limbus-company/"><i class="fa fa-angle-left"></i> 上一篇</a>
+            </div>
+            
+            
+            <div class="nav-next clearfix">
+                <a title=" 计网5-链路层和局域网" href="/2026/06/12/计网5-链路层和局域网/">下一篇 <i class="fa fa-angle-right"></i></a>
+            </div>
+            
+        </nav>
+    
+    
+        <div class="comment-post">
+            
+        </div>
+    
+</article>
+
+        
+
+            </section>
+
+            
+                
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.jpg" alt="ue-fn" loading="lazy" decoding="auto" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">LCB Faust</p>
+    </div>
+    <div class="site-meta">
+        <a class="meta-item" href="/archives/">
+            <span class="title">
+                文章
+            </span>
+            <span class="count">
+                16
+            </span>
+        </a>
+        <a class="meta-item" href="/categories/">
+            <span class="title">
+                分类
+            </span>
+            <span class="count">
+                5
+            </span>
+        </a>
+        <a class="meta-item" href="/tags/">
+            <span class="title">
+                标签
+            </span>
+            <span class="count">
+                5
+            </span>
+        </a>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类列表</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BA%92%E8%81%94%E7%BD%91%E8%AE%A1%E7%AE%97/">-[互联网计算]</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">-[操作系统]</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E5%9F%BA%E7%A1%80/">-数据管理基础</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%94%BB%E5%BB%8A/">画廊</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%94%BB%E5%BB%8A/%E6%9D%82%E5%9B%BE/">杂图</a><span class="category-list-count">2</span></li></ul></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/%E5%90%88%E9%9B%86/" style="font-size: 0.7em;">合集</a> <a href="/tags/%E5%9B%BE%E7%89%87/" style="font-size: 0.7em;">图片</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 0.6em;">操作系统</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 0.8em;">笔记</a> <a href="/tags/%E8%AE%A1%E5%88%92/" style="font-size: 0.6em;">计划</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2026/06/12/%E8%AE%A1%E7%BD%915-%E9%93%BE%E8%B7%AF%E5%B1%82%E5%92%8C%E5%B1%80%E5%9F%9F%E7%BD%91/"><i class="fa fa-book"></i> 计网5-链路层和局域网</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2026/05/13/%E8%AE%A1%E7%BD%914-%E7%BD%91%E7%BB%9C%E5%B1%82/"><i class="fa fa-book"></i> 计网4-网络层</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2026/04/10/limbus-company/"><i class="fa fa-book"></i> limbus_company</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2026/03/30/%E8%AE%A1%E7%BD%913-%E8%BF%90%E8%BE%93%E5%B1%82/"><i class="fa fa-book"></i> 计网3-运输层</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2026/03/27/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F4.5-%E4%BA%92%E6%96%A5/"><i class="fa fa-book"></i> 操作系统4-互斥基础</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+            
+
+        
+
+                </div>
+    </div>
+</div>
+
+<footer>
+    <div id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                            <li>
+                                <a href="https://github.com/kratos-rebirth" target="_blank" rel="nofollow">
+                                    <i class="fa fa-github"></i>
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="/atom.xml" target="_blank" rel="nofollow">
+                                    <i class="fa fa-rss"></i>
+                                </a>
+                            </li>
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2026 ue-fn 版权所有.</li>
+                            <li>本站已在风雨中飘摇<span id="kr-since">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>自豪地使用 <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a> 主题</li>
+                            <li>站点由 <a href="https://github.com/Candinya/Kratos-Rebirth/graphs/contributors" target="_blank">ue-fn</a> 用 <i class="fa fa-heart" style="color:#d43f57"></i> 搭建</li>
+                        </div>
+                        <!-- 额外的追加注入项 -->
+                        
+                            <div>
+                                
+                                    <li>由 <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a> 强力驱动</li>
+                                
+                                    <li>在 <a href="https://github.io" target="_blank">Github Pages</a> 暖心托管</li>
+                                
+                            </div>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="kr-tool text-center">
+            <div class="tool">
+                <!-- 额外的追加注入项 -->
+                
+                
+                    <div class="box search-box">
+                        <a href="/search">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                <div class="box theme-box" id="theme-toggle">
+                    <span class="fa fa-adjust"></span>
+                </div>
+            </div>
+            <div id="gotop-box" class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+
+    <div id="kr-donate-modal" class="kr-modal">
+    <div class="kr-modal-bg" onclick="krCloseDonateModal()"></div>
+    <div class="kr-modal-content">
+        <div class="kr-modal-header">
+            <div class="kr-modal-icon">
+                <i class="fa fa-bitcoin"></i>
+            </div>
+            <div class="kr-modal-title">赞助喵</div>
+            <button class="kr-modal-close" onclick="krCloseDonateModal()">
+                <i class="fa fa-times-circle"></i>
+            </button>
+        </div>
+        <div class="kr-modal-body">
+            <div class="kr-donate-message">非常感谢您的喜欢！ <i class="fa fa-heart" style="color:#d43f57"></i></div>
+            <div class="kr-donate-qr" id="kr-donate-qr">
+                
+                    <img class="kr-donate-placeholder" src="https://dev.krt.moe/demo-assets/donate.webp" alt="赞助喵" />
+                
+            </div>
+            <div class="kr-donate-platforms">
+                
+                    
+                        <button class="kr-donate-platform-button" style="color: skyblue;" title="模拟支付" onclick="krDonateModalShowPlatformQR('example_payment', 'skyblue')">
+                            <i class="fa fa-credit-card"></i>
+                        </button>
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+<script defer src="/js/kr-modal/donate.min.js"></script>
+
+
+
+
+    <div id="kr-share-modal" class="kr-modal">
+    <div class="kr-modal-bg" onclick="krCloseShareModal()"></div>
+    <div class="kr-modal-content">
+        <div class="kr-modal-header">
+            <div class="kr-modal-icon">
+                <i class="fa fa-share-alt"></i>
+            </div>
+            <div class="kr-modal-title">分享这一刻</div>
+            <button class="kr-modal-close" onclick="krCloseShareModal()">
+                <i class="fa fa-times-circle"></i>
+            </button>
+        </div>
+        <div class="kr-modal-body">
+            <div class="kr-share-message">让朋友们也来瞅瞅！</div>
+            <div class="kr-share-qr" id="kr-share-qr"></div>
+            <div class="kr-share-platforms">
+                
+                    <button class="kr-share-platform-button" style="color: #62b6e7;" title="喵窝" onclick="krShareModalOpenPlatform('https://nya.one/share?text=%3E%20$TITLE%0A%3E%0A%3E%20$SUMMARY%0A----%20$SITE%0A%0A$URL')">
+                        <svg fill="currentColor" width="18" height="18" viewBox="0 0 329 388"><path d="M0,36.226c0,-19.993 16.233,-36.226 36.226,-36.226c13.788,0 25.787,7.719 31.908,19.068l188.366,229.845l0,-111.259c-6.356,5.508 -14.645,8.843 -23.707,8.843c-19.994,0 -36.226,-16.232 -36.226,-36.226c-0,-8.551 2.968,-16.413 7.93,-22.613l-0.015,-0.013l56.614,-69.08c6.2,-11.073 18.047,-18.565 31.63,-18.565c19.994,0 36.227,16.233 36.227,36.226l-0,314.644c-0,19.994 -16.233,36.226 -36.227,36.226c-13.166,0 -24.701,-7.039 -31.044,-17.555l-189.229,-230.899l-0,212.228c-0,19.994 -16.233,36.226 -36.227,36.226c-19.993,0 -36.226,-16.232 -36.226,-36.226l0,-314.644Z" /></svg>
+                    </button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<script defer src="/js/kr-modal/share.min.js"></script>
+
+
+
+<!-- 额外的追加注入项 -->
+
+
+        <script>
+    if (!window.kr) {
+        window.kr = {};
+    }
+    window.kr.notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));
+    window.kr.siteRoot = "/";
+</script>
+
+
+  <script defer src="/vendors/nprogress@0.2.0/nprogress.js"></script>
+
+
+
+  <script defer src="/vendors/viewerjs@1.11.6/dist/viewer.min.js"></script>
+
+
+<script defer src="/js/kr-core.min.js"></script>
+
+
+  <script defer src="/js/kr-pjax.min.js"></script>
+
+
+<!-- 额外的追加注入项 -->
+
+
+    </body>
+</html>
